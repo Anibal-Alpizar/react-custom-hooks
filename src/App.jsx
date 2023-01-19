@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-function useMyHook() {
-  const [active, setActive] = useState(false)
+function useActive(initialState) {
+  const [active, setActive] = useState(initialState = false)
 
   const handleToggle = () => setActive(!active)
   const handleFalse = () => setActive(false)
@@ -17,12 +17,12 @@ function useMyHook() {
 
 function App() {
 
-  const {handleToggle, active, handleFalse, handleTrue} = useMyHook()
+  const { handleToggle, active, handleFalse, handleTrue } = useActive(false)
 
 
   return (
     <div>
-       <button onClick={handleToggle}>
+      <button onClick={handleToggle}>
         Toggle
       </button>
 
@@ -32,9 +32,30 @@ function App() {
 
       <button onClick={handleFalse}>
         False
-      </button> 
+      </button>
 
       {active.toString()}
+
+      <ShowInfo />
+    </div>
+  )
+}
+
+function ShowInfo() {
+
+  const { active, handleToggle } = useActive()
+  return (
+    <div style={{ background: "#000", color: "white", marginTop: "10px" }}>
+      <button onClick={() => handleToggle()}>
+        show/hide
+      </button>
+      {
+        active && (
+          <div>
+            <h1>user info</h1>
+          </div>
+        )
+      }
     </div>
   )
 }
